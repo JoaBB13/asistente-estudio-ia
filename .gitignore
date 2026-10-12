@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Datos locales del proyecto
+/data/
+
+# Entorno virtual y configuracion privada
+/.venv/
+.env
+.env.*
+!.env.example
+
+# Modelos e indices generados
+/models/*
+!/models/.gitkeep
