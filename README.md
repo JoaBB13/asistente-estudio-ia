@@ -5,8 +5,7 @@ Asistente de estudio basado en documentos de una asignatura. Proyecto final grup
 
 Etapa de preparación. Estructura inicial del repositorio creada.
 
-Esta propuesta es un borrador pendiente de revisión por el equipo.
-El asistente todavía no está implementado.
+Propuesta inicial acordada por el equipo. El proyecto se encuentra en etapa de preparación; el asistente todavía no está implementado.
 
 ## Integrantes
 
