@@ -102,3 +102,73 @@ Para reproducir las extracciones comparadas:
 
 Los PDF deben compartirse por el canal acordado por el equipo;
 no se descargan al clonar el repositorio.
+
+## Análisis exploratorio inicial
+
+El corpus limpio contiene:
+- 11 documentos.
+- 742 páginas.
+- 41.673 palabras extraídas.
+- Mediana de 52 palabras por página.
+- Promedio de 56,16 palabras por página.
+- 172 páginas con menos de 20 palabras, incluidas 3 sin texto limpio.
+- 26 grupos de textos coincidentes después de unificar espacios.
+
+La coincidencia textual no implica que las imágenes sean iguales.
+Por ahora no se eliminan automáticamente duplicados.
+
+## Revisión de las páginas sin texto
+
+Según la revisión visual realizada por Joaquín:
+
+- Fundamentos IA_ML, página 63: cuadros con títulos, imágenes y
+  explicaciones no recuperadas por la extracción textual.
+- Fundamentos IA_ML, página 99: esquema comparativo con logos y
+  palabras no recuperadas por la extracción textual.
+- Agentes y Búsqueda, página 28: cruz roja sin contenido de estudio legible.
+
+Las dos primeras se registran como contenido visual no recuperado.
+No se aplica OCR en esta versión.
+
+## Selección inicial para búsqueda
+
+Se conservan las 742 páginas en paginas_limpias.jsonl.
+
+El archivo corpus_busqueda.jsonl contiene 697 registros:
+- 570 páginas con 20 palabras o más.
+- 127 páginas breves conservadas y pendientes de revisión.
+
+Se excluyen del índice 45 páginas:
+- 11 portadas identificadas.
+- 31 separadores o cierres identificados por texto exacto.
+- 2 páginas con contenido visual no recuperado.
+- 1 página sin contenido de estudio legible.
+
+Cada decisión queda registrada en decisiones_paginas.jsonl.
+Estas reglas no constituyen una revisión visual completa del corpus.
+
+## Ejecución del análisis y la selección
+
+Desde la raíz del proyecto, con el entorno virtual activo:
+
+    python src/preparar_paginas.py
+    python src/analizar_corpus.py
+    python src/crear_corpus_busqueda.py
+
+Los resultados se generan dentro de data/processed/.
+
+## Formato compartido para recuperación
+
+Archivo: data/processed/corpus_busqueda.jsonl
+
+Cada línea representa un objeto JSON con:
+- id_fragmento: identificador estable basado en la huella del PDF y página.
+- documento: nombre del PDF.
+- pagina: posición en el PDF, empezando en 1.
+- sha256: huella del documento original.
+- texto: contenido limpio de la diapositiva.
+- revision_visual_pendiente: señal de revisión definida por las reglas.
+
+TF-IDF y la recuperación por embeddings deben utilizar el mismo corpus.
+El texto original de este archivo no debe reemplazarse por la versión
+normalizada para TF-IDF.
