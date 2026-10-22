@@ -144,3 +144,11 @@ Se informarán cantidades absolutas y la incertidumbre de las mediciones.
 - docs/: documentación complementaria.
 - tests/: pruebas del código.
 
+## Preparación de los documentos
+
+La extracción por diapositiva y la limpieza inicial están implementadas.
+Se revisaron tres páginas de muestra; la revisión del corpus completo
+continúa durante el análisis exploratorio.
+
+Las instrucciones y limitaciones están en
+[Preparación de los datos](docs/preparacion_datos.md).
