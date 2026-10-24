@@ -14,7 +14,7 @@ el mismo corpus, las mismas preguntas y la misma cantidad de resultados.
 
 ## Estado actual
 
-Se prepararon cinco preguntas de desarrollo respondibles.
+Se prepararon diez preguntas de desarrollo respondibles.
 
 Para cada pregunta se contrastó el contenido de la diapositiva con el
 texto disponible en el corpus y se registró al menos una evidencia.
@@ -71,6 +71,11 @@ se evalúa si la respuesta expresa los conceptos correctos.
 | DEV-003 | Análisis exploratorio de texto | Procesamiento y nuevas features, página 49 |
 | DEV-004 | Alineación de valores | Agentes y Búsqueda, página 11 |
 | DEV-005 | Ventajas de la búsqueda local | Problemas de optimización, página 7 |
+| DEV-006 | Rol del análisis de datos en IA | Introducción al análisis de datos, página 12 |
+| DEV-007 | Variabilidad de los datos | EDA, página 13 |
+| DEV-008 | Chi-cuadrado frente a ANOVA | Causas e identificación de faltantes, páginas 20 y 25 |
+| DEV-009 | Imputación frente a transformación de outliers | Procesamiento y limpieza de datos, página 24 |
+| DEV-010 | Definición de aprendizaje automático | Aprendizaje automático, página 9 |
 
 Las evidencias iniciales no se consideran necesariamente exhaustivas.
 Si otra diapositiva también permite responder, debe revisarse e
@@ -151,3 +156,26 @@ los índices de ambos buscadores antes de volver a comparar.
 
 No se mezclarán resultados obtenidos con diferentes versiones del corpus
 como si pertenecieran a una misma evaluación.
+
+## Preguntas que requieren varias evidencias
+
+DEV-008 requiere información sobre chi-cuadrado y sobre ANOVA.
+
+Su campo opcional `grupos_evidencia_requeridos` contiene dos grupos:
+uno para la evidencia de chi-cuadrado y otro para la evidencia de ANOVA.
+Cada grupo puede contener fragmentos alternativos que respalden esa
+misma parte de la respuesta.
+
+Hit@3 mantiene su definición: basta con recuperar una evidencia válida
+entre los tres primeros resultados.
+
+Además, para los casos que tengan este campo, se registrará si existe
+cobertura completa entre los tres primeros resultados: debe recuperarse
+al menos un fragmento de cada grupo requerido.
+
+Actualmente, DEV-008 tiene un fragmento por grupo: página 20 y página 25.
+Recuperar solo una de esas páginas cuenta como acierto en Hit@3, pero
+no como cobertura completa.
+
+Esta comprobación adicional se informará por separado, indicando cuántos
+casos requieren varias evidencias y cuántos alcanzan cobertura completa.
