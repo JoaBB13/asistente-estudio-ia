@@ -215,6 +215,47 @@ def validar_casos(casos, corpus, huella, particion):
                 )
                 grupos_vistos.add(clave)
 
+def validar_reformulaciones(casos):
+    """Comprueba que cada variante apunte a un caso base compatible."""
+    por_id = {caso["id"]: caso for caso in casos}
+
+    for caso in casos:
+        if "caso_origen" not in caso:
+            continue
+
+        identificador = caso["id"]
+        id_origen = caso["caso_origen"]
+
+        exigir(
+            es_texto(id_origen),
+            f"{identificador}: 'caso_origen' debe ser texto no vacío.",
+        )
+        exigir(
+            id_origen != identificador,
+            f"{identificador}: no puede ser su propio caso de origen.",
+        )
+
+        origen = por_id.get(id_origen)
+        exigir(
+            origen is not None,
+            f"{identificador}: el caso de origen no existe.",
+        )
+        exigir(
+            "caso_origen" not in origen,
+            f"{identificador}: debe apuntar a un caso base, no a otra variante.",
+        )
+        exigir(
+            origen["particion"] == caso["particion"],
+            f"{identificador}: la partición no coincide con la del origen.",
+        )
+        exigir(
+            origen["respondible"] == caso["respondible"],
+            f"{identificador}: 'respondible' no coincide con el origen.",
+        )
+        exigir(
+            origen["corpus_sha256"] == caso["corpus_sha256"],
+            f"{identificador}: el corpus no coincide con el del origen.",
+        )
 
 def main():
     parser = argparse.ArgumentParser(
@@ -244,6 +285,8 @@ def main():
         huella = hashlib.sha256(argumentos.corpus.read_bytes()).hexdigest()
 
         validar_casos(casos, corpus, huella, argumentos.particion)
+        
+        validar_reformulaciones(casos)
 
     except (OSError, UnicodeError, ValueError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

@@ -14,13 +14,16 @@ el mismo corpus, las mismas preguntas y la misma cantidad de resultados.
 
 ## Estado actual
 
-Se prepararon doce preguntas de desarrollo: diez respondibles y dos
-no respondibles con el corpus actual.
+Se prepararon 15 consultas de desarrollo: 13 respondibles y 2 no
+respondibles con el corpus actual.
 
-Para las diez preguntas respondibles se contrastó el contenido de las
-diapositivas con el corpus y se registraron evidencias. Para las dos
-no respondibles se revisaron coincidencias de términos y el alcance
-de los documentos, dejando constancia de las limitaciones de esa revisión.
+Las respondibles comprenden 11 preguntas base y 2 reformulaciones.
+Las preguntas base tienen evidencias contrastadas con las diapositivas
+y el corpus; las reformulaciones utilizan evidencias ya verificadas.
+
+Para las dos no respondibles se revisaron coincidencias de términos
+y el alcance de los documentos, dejando constancia de las limitaciones
+de esa revisión.
 
 Estas preguntas constituyen una primera tanda de prueba. Todavía no
 permiten afirmar que el asistente tenga una calidad determinada.
@@ -249,3 +252,28 @@ python src/validar_evaluacion.py \
 
 Estas comprobaciones no sustituyen la revisión conceptual de las
 preguntas, las respuestas de referencia ni la suficiencia de las evidencias.
+
+## Reformulaciones de preguntas
+
+El campo opcional `caso_origen` vincula una reformulación con su caso base:
+
+- DEV-014 reformula DEV-002, sobre MAE.
+- DEV-015 reformula DEV-004, sobre alineación de valores.
+
+Cada variante debe apuntar directamente a un caso base existente,
+mantener su partición, su condición de respondible y la versión del corpus.
+
+El validador comprueba estos vínculos. La equivalencia de significado
+y la suficiencia de las evidencias requieren revisión humana.
+
+Los resultados se informarán por separado:
+
+- Hit@3 sobre las 11 preguntas base respondibles.
+- Hit@3 sobre las 2 reformulaciones respondibles.
+- Abstención sobre los 2 casos no respondibles.
+
+Las variantes no se consideran temas independientes. Una pregunta base
+y sus reformulaciones deben permanecer en la misma partición.
+
+DEV-013 incorpora el tema de los bastones de la retina, con evidencia
+en la página 6 de EXTRA - Computer Vision I.pdf.
