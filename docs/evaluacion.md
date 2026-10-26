@@ -207,3 +207,45 @@ respondibles, para evitar considerar exitoso a un sistema que se
 abstiene siempre.
 
 Estos casos no se incluyen en el denominador de Hit@3.
+
+
+## Validación automática de los archivos
+
+Desde la raíz del proyecto, con el entorno virtual activado:
+
+```bash
+python src/validar_evaluacion.py
+```
+
+El programa comprueba:
+
+- Formato JSONL y campos obligatorios.
+- Tipos de datos e identificadores únicos.
+- Coincidencia de la huella SHA-256 del corpus.
+- Existencia de los fragmentos citados.
+- Correspondencia entre identificador, documento y página.
+- Evidencias obligatorias en preguntas respondibles.
+- Ausencia de evidencias en preguntas no respondibles.
+- Consistencia de los grupos de evidencias requeridos.
+
+No modifica archivos. Finaliza con código 0 si la validación es correcta
+y con código 1 si encuentra un error, mostrando el primer problema.
+
+Se pueden indicar otros archivos mediante argumentos:
+
+```bash
+python src/validar_evaluacion.py \
+  --corpus data/processed/corpus_busqueda.jsonl \
+  --preguntas data/evaluacion/preguntas_desarrollo.jsonl \
+  --particion desarrollo
+```
+
+### Comprobaciones realizadas
+
+- Validación correcta del corpus de 697 fragmentos y los 12 casos:
+  10 respondibles y 2 no respondibles.
+- Detección de una página incorrecta introducida deliberadamente
+  en una copia en memoria de DEV-001.
+
+Estas comprobaciones no sustituyen la revisión conceptual de las
+preguntas, las respuestas de referencia ni la suficiencia de las evidencias.
