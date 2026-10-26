@@ -14,10 +14,13 @@ el mismo corpus, las mismas preguntas y la misma cantidad de resultados.
 
 ## Estado actual
 
-Se prepararon diez preguntas de desarrollo respondibles.
+Se prepararon doce preguntas de desarrollo: diez respondibles y dos
+no respondibles con el corpus actual.
 
-Para cada pregunta se contrastó el contenido de la diapositiva con el
-texto disponible en el corpus y se registró al menos una evidencia.
+Para las diez preguntas respondibles se contrastó el contenido de las
+diapositivas con el corpus y se registraron evidencias. Para las dos
+no respondibles se revisaron coincidencias de términos y el alcance
+de los documentos, dejando constancia de las limitaciones de esa revisión.
 
 Estas preguntas constituyen una primera tanda de prueba. Todavía no
 permiten afirmar que el asistente tenga una calidad determinada.
@@ -179,3 +182,28 @@ no como cobertura completa.
 
 Esta comprobación adicional se informará por separado, indicando cuántos
 casos requieren varias evidencias y cuántos alcanzan cobertura completa.
+
+## Casos iniciales de abstención
+
+- DEV-011: fecha y horario del examen final.
+- DEV-012: supuesto resultado de MAE de nuestro asistente.
+
+Ambos tienen `respondible: false` y `evidencias: []`.
+La lista vacía indica que no se identificaron fragmentos que respalden
+una respuesta al dato solicitado.
+
+Se considera abstención correcta cuando el asistente reconoce la falta
+de información y no inventa el dato ni atribuye al proyecto resultados
+de otros ejemplos.
+
+Explicar un concepto relacionado sin reconocer que falta el dato
+solicitado no cuenta como abstención correcta.
+
+Se reportará la cantidad de abstenciones correctas sobre el total de
+preguntas no respondibles, junto con su porcentaje.
+
+También se registrarán las abstenciones incorrectas en preguntas
+respondibles, para evitar considerar exitoso a un sistema que se
+abstiene siempre.
+
+Estos casos no se incluyen en el denominador de Hit@3.
