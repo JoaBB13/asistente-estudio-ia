@@ -1,4 +1,5 @@
 # asistente-estudio-ia
+
 Asistente de estudio basado en documentos de una asignatura. Proyecto final grupal de Inteligencia Artificial.
 
 ## Estado del proyecto
@@ -6,11 +7,12 @@ Asistente de estudio basado en documentos de una asignatura. Proyecto final grup
 La extracción, limpieza, selección del corpus y el análisis exploratorio
 inicial están implementados y documentados.
 
-Se dispone de un corpus de 697 fragmentos, 15 consultas de desarrollo
+Se dispone de un corpus de 697 fragmentos, 40 consultas de desarrollo
 y 20 preguntas finales reservadas. Los archivos de evaluación pasaron
-la validación estructural y de referencias.
+la validación estructural y de referencias. Esta validación no sustituye
+la revisión conceptual de las preguntas, respuestas y evidencias.
 
-Falta ampliar desarrollo hasta las 40 consultas propuestas.
+Se completó la preparación de las 40 consultas de desarrollo propuestas.
 La recuperación TF-IDF, la recuperación semántica, la generación
 y la consola están pendientes de implementación.
 
@@ -39,16 +41,20 @@ respaldan sus respuestas.
 Se propone utilizar generación aumentada por recuperación (RAG):
 
 1. Extraer el texto de los PDF.
-2. Limpiar y dividir el contenido en fragmentos.
+2. Limpiar el contenido y utilizar cada diapositiva como fragmento.
 3. Conservar el documento y la página de cada fragmento.
 4. Buscar los fragmentos relacionados con la pregunta.
 5. Utilizar un modelo de lenguaje preentrenado para generar una respuesta.
 6. Mostrar las fuentes e indicar cuando la evidencia sea insuficiente.
 
+La primera comparación de recuperadores utilizará diapositivas individuales.
+Si posteriormente se agrega contexto de páginas vecinas, se conservarán
+sus referencias y se distinguirá del contenido recuperado inicialmente.
+
 No se prevé entrenar un modelo de lenguaje desde cero.
 Los modelos concretos se seleccionarán tras comprobar los recursos disponibles.
 
-## Datos propuestos
+## Datos
 
 El corpus está formado por 11 PDF de contenido de la materia
 Inteligencia Artificial: clases 01 a 10 y material extra de Computer Vision.
@@ -62,23 +68,35 @@ Se conservan las 742 páginas en los datos de preparación y se seleccionan
 697 para el corpus de búsqueda. Las 45 exclusiones quedan documentadas.
 Cada fragmento corresponde a una diapositiva completa.
 
-Cada fragmento conservará:
+Cada fragmento conserva:
+
 - Identificador.
 - Texto.
 - Documento de origen.
 - Página de origen.
+- Huella SHA-256 del documento original.
+- Indicador de revisión visual pendiente.
 
 ### Calidad y limitaciones
 
-Se revisarán errores de extracción, encabezados repetidos, duplicados
-y páginas sin texto extraíble.
+Se realizó una revisión inicial de la extracción, los pies repetidos,
+las coincidencias textuales y las páginas sin texto extraíble.
+También se contrastaron páginas utilizadas como evidencias de evaluación.
 
-El contenido presente únicamente en imágenes puede quedar fuera del MVP.
+Estas comprobaciones no constituyen una revisión visual exhaustiva
+de todas las diapositivas.
+
+El contenido presente únicamente en imágenes, gráficos o fórmulas
+no recuperadas como texto puede quedar fuera del MVP.
+La ausencia de texto extraído no implica que la diapositiva
+carezca de información.
+
 El material representa el enfoque de una asignatura; los resultados no
 demostrarán que el asistente funciona igual en cualquier materia.
 
-Los PDF y los datos procesados se mantendrán fuera del control de versiones.
-Se documentará cómo obtener y preparar el corpus para reproducir el proyecto.
+Los PDF, los datos procesados y los archivos de preguntas de evaluación
+se mantienen fuera del control de versiones.
+Se documenta cómo obtener y preparar el corpus para reproducir el proyecto.
 
 ## Alcance propuesto del MVP
 
@@ -109,33 +127,47 @@ La representación léxica aplicará minúsculas y eliminación de tildes.
 El vectorizador se ajustará únicamente sobre el corpus de documentos;
 las consultas se transformarán sin volver a ajustarlo.
 
+Esta normalización no modificará el texto original devuelto
+en los resultados.
+
 Ambos métodos utilizarán el mismo corpus, las mismas preguntas y
 el mismo contrato de resultados, definido en
 [Contrato de recuperación](docs/contrato_recuperacion.md).
 
-## Evaluación propuesta
+## Evaluación
 
-Se propone preparar 60 preguntas:
+Se prepararon 60 consultas:
+
 - 40 para desarrollo y ajuste.
 - 20 reservadas para la evaluación final.
 
-Ambos conjuntos incluirán preguntas respondibles y no respondibles.
-Las paráfrasis de una misma pregunta permanecerán en el mismo conjunto.
+Ambos conjuntos incluyen preguntas respondibles y no respondibles.
+Las paráfrasis identificadas de una misma pregunta permanecen
+en el mismo conjunto.
 
-Cada pregunta tendrá una respuesta de referencia o una indicación de
-que no es respondible, junto con las fuentes esperadas cuando corresponda.
+Cada consulta incluye una respuesta de referencia o una indicación de
+que no es respondible, criterios de corrección y las fuentes esperadas
+cuando corresponde.
 
 Las preguntas y respuestas de evaluación no se incorporarán al índice.
 El conjunto final no se utilizará para ajustar el sistema.
 
-Estado de preparación:
+### Composición de los conjuntos
 
-- Desarrollo: 15 consultas preparadas de las 40 propuestas;
-  13 respondibles y 2 no respondibles. Incluye 2 reformulaciones.
-- Final: 20 preguntas preparadas; 16 respondibles y 4 no respondibles.
+| Conjunto | Total | Respondibles | No respondibles |
+| --- | ---: | ---: | ---: |
+| Desarrollo | 40 | 33 | 7 |
+| Final | 20 | 16 | 4 |
 
-Las reformulaciones se identifican y sus resultados se reportan
-por separado de los casos base.
+Las 33 consultas respondibles de desarrollo incluyen 26 preguntas base
+y 7 reformulaciones. Las reformulaciones forman parte del total de
+40 consultas; no son casos adicionales ni independientes de sus originales.
+
+Sus resultados se reportarán por separado de los casos base.
+
+Tres consultas de desarrollo incluyen grupos de evidencias requeridos.
+Este conteo incluye reformulaciones y no representa necesariamente
+tres casos base independientes.
 
 El protocolo está en [Evaluación](docs/evaluacion.md).
 La versión reservada se documenta en
@@ -147,11 +179,17 @@ Los criterios de revisión manual están en
 
 - Hit@3: proporción de preguntas respondibles con al menos una fuente
   correcta entre los primeros tres resultados recuperados.
+- Cobertura de los grupos de evidencias requeridos en las consultas
+  que necesitan información de varias fuentes.
 - Proporción de respuestas correctas y respaldadas por el material.
 - Validez de las citas.
 - Abstención correcta ante preguntas no respondibles.
 - Rechazo incorrecto de preguntas respondibles.
 - Tiempo de respuesta.
+
+Hit@3 no garantiza que se haya recuperado toda la información necesaria
+para responder una pregunta que requiere varias fuentes.
+Por eso se distinguirá del cumplimiento de los grupos de evidencias.
 
 ### Metas iniciales para discutir
 
@@ -160,7 +198,8 @@ Los criterios de revisión manual están en
   respondibles, según una rúbrica definida previamente.
 
 Son objetivos propuestos, no resultados obtenidos.
-Se informarán cantidades absolutas y la incertidumbre de las mediciones.
+Se informarán cantidades absolutas, porcentajes, denominadores
+y las limitaciones e incertidumbre de las mediciones.
 
 ## Distribución de tareas propuesta
 
@@ -169,23 +208,29 @@ Se informarán cantidades absolutas y la incertidumbre de las mediciones.
 - Fabricio Posada: baseline, evaluación y consola.
 - Todos: documentación de su módulo, integración y defensa.
 
+Joaquín también avanzó en la preparación de los conjuntos de preguntas
+y en su validación estructural y de referencias como apoyo a la evaluación.
+
 ## Organización del repositorio
 
-- data/raw/: documentos originales, excluidos de Git.
-- data/processed/: datos procesados, excluidos de Git.
-- notebooks/: análisis exploratorio.
-- src/: código fuente.
-- models/: modelos e índices generados, excluidos de Git.
-- docs/: documentación complementaria.
-- tests/: pruebas del código.
+- `data/raw/`: documentos originales, excluidos de Git.
+- `data/processed/`: datos procesados, excluidos de Git.
+- `data/evaluacion/`: conjuntos de preguntas, excluidos de Git.
+- `notebooks/`: análisis exploratorio.
+- `src/`: código fuente.
+- `models/`: modelos e índices generados, excluidos de Git.
+- `docs/`: documentación complementaria.
+- `tests/`: pruebas del código.
 
 ## Preparación de los documentos
 
 La extracción por diapositiva y la limpieza inicial están implementadas.
-Se revisaron tres páginas de muestra; la revisión del corpus completo
-continúa durante el análisis exploratorio.
 
-Las instrucciones y limitaciones están en
+La comparación inicial de extractores utilizó tres páginas de muestra.
+Posteriormente se revisaron páginas sin texto limpio y páginas utilizadas
+como evidencias para las preguntas de evaluación.
+
+Las instrucciones, decisiones de selección y limitaciones están en
 [Preparación de los datos](docs/preparacion_datos.md).
 
 ## Puesta en marcha

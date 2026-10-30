@@ -166,13 +166,14 @@ python src/validar_evaluacion.py
 Resultado esperado:
 
 - 697 fragmentos del corpus.
-- 15 preguntas.
-- 13 respondibles.
-- 2 no respondibles.
-- 1 caso con grupos de evidencias.
+- 40 preguntas.
+- 33 respondibles.
+- 7 no respondibles.
+- 3 casos con grupos de evidencias.
 
-Dos consultas respondibles son reformulaciones de otros casos.
-No deben interpretarse como temas independientes.
+Las 33 consultas respondibles incluyen 26 preguntas base y
+7 reformulaciones. Las reformulaciones no deben interpretarse
+como temas independientes.
 
 La validación automática comprueba estructura y referencias.
 No sustituye la revisión conceptual humana.

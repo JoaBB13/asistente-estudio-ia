@@ -14,21 +14,24 @@ el mismo corpus, las mismas preguntas y la misma cantidad de resultados.
 
 ## Estado actual
 
-Se prepararon 15 consultas de desarrollo: 13 respondibles y 2 no
-respondibles con el corpus actual.
+Se completaron las 40 consultas de desarrollo propuestas:
+33 respondibles y 7 no respondibles con el corpus actual.
 
-Las respondibles comprenden 11 preguntas base y 2 reformulaciones.
+Las respondibles comprenden 26 preguntas base y 7 reformulaciones.
 Las preguntas base tienen evidencias contrastadas con las diapositivas
 y el corpus; las reformulaciones utilizan evidencias ya verificadas.
 
-Para las dos no respondibles se revisaron coincidencias de términos
-y el alcance de los documentos, dejando constancia de las limitaciones
-de esa revisión.
+Para los casos no respondibles se realizaron revisiones dirigidas
+de términos, del alcance de los documentos y, cuando correspondía,
+del contenido visual. Se registraron las limitaciones de esas revisiones;
+no constituyen una inspección exhaustiva de todas las imágenes del corpus.
 
-Estas preguntas constituyen una primera tanda de prueba. Todavía no
-permiten afirmar que el asistente tenga una calidad determinada.
+Los casos pasaron la validación estructural y de referencias.
+Esto no sustituye la revisión conceptual humana.
 
-No se han medido resultados de recuperación ni de generación.
+Completar el conjunto de desarrollo no demuestra una calidad determinada
+del asistente. Todavía no se midieron resultados de recuperación
+ni de generación.
 
 ## Ubicación de los datos
 
@@ -170,12 +173,22 @@ como si pertenecieran a una misma evaluación.
 
 ## Preguntas que requieren varias evidencias
 
-DEV-008 requiere información sobre chi-cuadrado y sobre ANOVA.
+Tres consultas de desarrollo contienen grupos de evidencias requeridos:
 
-Su campo opcional `grupos_evidencia_requeridos` contiene dos grupos:
-uno para la evidencia de chi-cuadrado y otro para la evidencia de ANOVA.
-Cada grupo puede contener fragmentos alternativos que respalden esa
-misma parte de la respuesta.
+- DEV-008: chi-cuadrado y ANOVA, con evidencias en las páginas 20 y 25
+  de 04 - EDA - Causas e Identificacion de faltantes.pdf.
+- DEV-023: MCAR y MAR, con evidencias en las páginas 53 y 54
+  del mismo documento.
+- DEV-034: reformulación de DEV-023, con los mismos grupos de evidencias.
+
+Son dos preguntas base y una reformulación, no tres temas independientes.
+
+El campo opcional `grupos_evidencia_requeridos` contiene un grupo
+por cada parte necesaria de la respuesta. Cada grupo puede contener
+fragmentos alternativos que respalden esa misma parte.
+
+Actualmente, las tres consultas tienen dos grupos y un fragmento
+por grupo.
 
 Hit@3 mantiene su definición: basta con recuperar una evidencia válida
 entre los tres primeros resultados.
@@ -184,37 +197,45 @@ Además, para los casos que tengan este campo, se registrará si existe
 cobertura completa entre los tres primeros resultados: debe recuperarse
 al menos un fragmento de cada grupo requerido.
 
-Actualmente, DEV-008 tiene un fragmento por grupo: página 20 y página 25.
-Recuperar solo una de esas páginas cuenta como acierto en Hit@3, pero
-no como cobertura completa.
+Recuperar solo una de las dos páginas necesarias cuenta como acierto
+en Hit@3, pero no como cobertura completa.
 
 Esta comprobación adicional se informará por separado, indicando cuántos
 casos requieren varias evidencias y cuántos alcanzan cobertura completa.
+También se distinguirán los casos base de las reformulaciones.
 
-## Casos iniciales de abstención
+## Casos de abstención en desarrollo
+
+Se prepararon siete consultas no respondibles:
 
 - DEV-011: fecha y horario del examen final.
 - DEV-012: supuesto resultado de MAE de nuestro asistente.
+- DEV-036: coeficiente de Spearman entre horas de estudio y notas
+  del parcial de nuestro curso.
+- DEV-037: tiempo de ejecución de la discretización del pico
+  de los pingüinos en la computadora utilizada en clase.
+- DEV-038: valor de k utilizado en una ejecución de búsqueda
+  local beam realizada en clase.
+- DEV-039: marca y modelo de cámara utilizados para obtener
+  las imágenes de la clase de Computer Vision.
+- DEV-040: contraseña de la red Wi-Fi del aula.
 
-Ambos tienen `respondible: false` y `evidencias: []`.
+Todos tienen `respondible: false` y `evidencias: []`.
 La lista vacía indica que no se identificaron fragmentos que respalden
 una respuesta al dato solicitado.
 
 Se considera abstención correcta cuando el asistente reconoce la falta
-de información y no inventa el dato ni atribuye al proyecto resultados
-de otros ejemplos.
+de información y no inventa el dato ni atribuye al proyecto o al curso
+resultados de otros ejemplos.
 
-Explicar un concepto relacionado sin reconocer que falta el dato
-solicitado no cuenta como abstención correcta.
+La clasificación se apoya en las revisiones documentadas de cada caso.
+Las búsquedas de términos por sí solas no demuestran ausencia de
+información en todas las imágenes de los PDF.
 
-Se reportará la cantidad de abstenciones correctas sobre el total de
-preguntas no respondibles, junto con su porcentaje.
-
-También se registrarán las abstenciones incorrectas en preguntas
-respondibles, para evitar considerar exitoso a un sistema que se
-abstiene siempre.
-
-Estos casos no se incluyen en el denominador de Hit@3.
+Durante la preparación de DEV-037 se descartó una pregunta sobre
+la cantidad de intervalos de discretización: los gráficos sí permitían
+obtener esa información. Se reemplazó por una consulta sobre un tiempo
+de ejecución que no se encontró en el material revisado.
 
 
 ## Validación automática de los archivos
@@ -250,22 +271,35 @@ python src/validar_evaluacion.py \
 
 ### Comprobaciones realizadas
 
-- Validación correcta del corpus de 697 fragmentos y los 12 casos:
-  10 respondibles y 2 no respondibles.
+- Validación inicial correcta del corpus de 697 fragmentos y
+  de 12 consultas: 10 respondibles y 2 no respondibles.
 - Detección de una página incorrecta introducida deliberadamente
   en una copia en memoria de DEV-001.
-- Validaciones posteriores correctas de las 15 consultas de desarrollo
-  y de las 20 preguntas finales.
+- Detección de un caso de origen inexistente introducido deliberadamente
+  en una reformulación en memoria.
+- Validación posterior correcta de las 40 consultas de desarrollo:
+  33 respondibles y 7 no respondibles.
+- Comprobación correcta de los vínculos de las 7 reformulaciones.
+- Identificación de 3 consultas con grupos de evidencias requeridos.
+- Validación estructural y de referencias de las 20 preguntas finales.
 
 Estas comprobaciones no sustituyen la revisión conceptual de las
 preguntas, las respuestas de referencia ni la suficiencia de las evidencias.
+Tampoco representan resultados de evaluación del asistente.
 
 ## Reformulaciones de preguntas
 
 El campo opcional `caso_origen` vincula una reformulación con su caso base:
 
-- DEV-014 reformula DEV-002, sobre MAE.
-- DEV-015 reformula DEV-004, sobre alineación de valores.
+| Reformulación | Caso base | Tema |
+| --- | --- | --- |
+| DEV-014 | DEV-002 | Error absoluto medio |
+| DEV-015 | DEV-004 | Alineación de valores |
+| DEV-031 | DEV-005 | Ventajas de la búsqueda local |
+| DEV-032 | DEV-007 | Variabilidad |
+| DEV-033 | DEV-019 | Discretización |
+| DEV-034 | DEV-023 | MCAR y MAR |
+| DEV-035 | DEV-025 | Sensores y actuadores |
 
 Cada variante debe apuntar directamente a un caso base existente,
 mantener su partición, su condición de respondible y la versión del corpus.
@@ -275,12 +309,13 @@ y la suficiencia de las evidencias requieren revisión humana.
 
 Los resultados se informarán por separado:
 
-- Hit@3 sobre las 11 preguntas base respondibles.
-- Hit@3 sobre las 2 reformulaciones respondibles.
-- Abstención sobre los 2 casos no respondibles.
+- Hit@3 sobre las 26 preguntas base respondibles.
+- Hit@3 sobre las 7 reformulaciones respondibles.
+- Abstención sobre los 7 casos no respondibles.
 
-Las variantes no se consideran temas independientes. Una pregunta base
-y sus reformulaciones deben permanecer en la misma partición.
+Las variantes están incluidas en las 40 consultas de desarrollo.
+No se consideran temas independientes. Una pregunta base y sus
+reformulaciones deben permanecer en la misma partición.
 
 DEV-013 incorpora el tema de los bastones de la retina, con evidencia
 en la página 6 de EXTRA - Computer Vision I.pdf.
