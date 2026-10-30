@@ -3,9 +3,18 @@ Asistente de estudio basado en documentos de una asignatura. Proyecto final grup
 
 ## Estado del proyecto
 
-Etapa de preparación. Estructura inicial del repositorio creada.
+La extracción, limpieza, selección del corpus y el análisis exploratorio
+inicial están implementados y documentados.
 
-Propuesta inicial acordada por el equipo. El proyecto se encuentra en etapa de preparación; el asistente todavía no está implementado.
+Se dispone de un corpus de 697 fragmentos, 15 consultas de desarrollo
+y 20 preguntas finales reservadas. Los archivos de evaluación pasaron
+la validación estructural y de referencias.
+
+Falta ampliar desarrollo hasta las 40 consultas propuestas.
+La recuperación TF-IDF, la recuperación semántica, la generación
+y la consola están pendientes de implementación.
+
+Todavía no se midieron resultados de recuperación ni de generación.
 
 ## Integrantes
 
@@ -41,12 +50,17 @@ Los modelos concretos se seleccionarán tras comprobar los recursos disponibles.
 
 ## Datos propuestos
 
-El corpus inicial estará formado por 11 PDF de contenido de la materia
+El corpus está formado por 11 PDF de contenido de la materia
 Inteligencia Artificial: clases 01 a 10 y material extra de Computer Vision.
 
 Se excluyen la presentación administrativa y la consigna del trabajo final.
 
-El volumen de páginas, palabras y fragmentos se medirá durante el análisis.
+La preparación registra 742 páginas y 41.673 palabras de texto limpio.
+La mediana es de 52 palabras por página.
+
+Se conservan las 742 páginas en los datos de preparación y se seleccionan
+697 para el corpus de búsqueda. Las 45 exclusiones quedan documentadas.
+Cada fragmento corresponde a una diapositiva completa.
 
 Cada fragmento conservará:
 - Identificador.
@@ -88,10 +102,16 @@ Se documentará cómo obtener y preparar el corpus para reproducir el proyecto.
 
 ## Baseline
 
-Se implementará una búsqueda por coincidencias de palabras, sin modelos
-aprendidos, como punto de comparación para la recuperación semántica.
+Se implementará un recuperador léxico mediante TF-IDF y similitud coseno,
+como punto de comparación para la recuperación semántica por embeddings.
 
-Ambos métodos se evaluarán con las mismas preguntas.
+La representación léxica aplicará minúsculas y eliminación de tildes.
+El vectorizador se ajustará únicamente sobre el corpus de documentos;
+las consultas se transformarán sin volver a ajustarlo.
+
+Ambos métodos utilizarán el mismo corpus, las mismas preguntas y
+el mismo contrato de resultados, definido en
+[Contrato de recuperación](docs/contrato_recuperacion.md).
 
 ## Evaluación propuesta
 
@@ -107,6 +127,21 @@ que no es respondible, junto con las fuentes esperadas cuando corresponda.
 
 Las preguntas y respuestas de evaluación no se incorporarán al índice.
 El conjunto final no se utilizará para ajustar el sistema.
+
+Estado de preparación:
+
+- Desarrollo: 15 consultas preparadas de las 40 propuestas;
+  13 respondibles y 2 no respondibles. Incluye 2 reformulaciones.
+- Final: 20 preguntas preparadas; 16 respondibles y 4 no respondibles.
+
+Las reformulaciones se identifican y sus resultados se reportan
+por separado de los casos base.
+
+El protocolo está en [Evaluación](docs/evaluacion.md).
+La versión reservada se documenta en
+[Conjunto final](docs/conjunto_final.md).
+Los criterios de revisión manual están en
+[Criterios de respuestas](docs/criterios_respuestas.md).
 
 ### Métricas
 
@@ -152,3 +187,11 @@ continúa durante el análisis exploratorio.
 
 Las instrucciones y limitaciones están en
 [Preparación de los datos](docs/preparacion_datos.md).
+
+## Puesta en marcha
+
+Para preparar el entorno, obtener los datos compartidos y comprobar
+la versión del corpus, consultar
+[Puesta en marcha para el equipo](docs/puesta_en_marcha.md).
+
+Clonar el repositorio no descarga los PDF ni los archivos de evaluación.
