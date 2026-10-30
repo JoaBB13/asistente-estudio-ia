@@ -125,6 +125,9 @@ o no estar respaldada por sus citas.
 Estos aspectos se registrarán por separado. Todavía no se define
 una nota global que los combine.
 
+Las reglas de corrección y los ejemplos de calibración se detallan
+en [Criterios de revisión manual](criterios_respuestas.md).
+
 ## Preguntas sin respuesta en el corpus
 
 Se incorporarán casos no respondibles para evaluar la abstención.
@@ -141,8 +144,10 @@ absolutas y porcentajes.
 Las preguntas de desarrollo pueden utilizarse para detectar errores
 y ajustar el sistema.
 
-El conjunto final previsto tendrá 20 preguntas y se reservará para la
-evaluación del sistema una vez fijada su configuración.
+El conjunto final preparado contiene 20 preguntas: 16 respondibles
+y 4 no respondibles. Se reserva para evaluar el sistema una vez
+fijada su configuración. Su versión y protocolo se documentan
+en `docs/conjunto_final.md`.
 
 Las preguntas equivalentes o las paráfrasis de una misma pregunta
 deben permanecer en la misma partición para evitar que la evaluación
@@ -249,6 +254,8 @@ python src/validar_evaluacion.py \
   10 respondibles y 2 no respondibles.
 - Detección de una página incorrecta introducida deliberadamente
   en una copia en memoria de DEV-001.
+- Validaciones posteriores correctas de las 15 consultas de desarrollo
+  y de las 20 preguntas finales.
 
 Estas comprobaciones no sustituyen la revisión conceptual de las
 preguntas, las respuestas de referencia ni la suficiencia de las evidencias.
