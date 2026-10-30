@@ -16,8 +16,8 @@ Un caso respondible requiere recuperar dos grupos de evidencias
 para cubrir la respuesta completa.
 
 El conjunto de desarrollo se mantiene separado y contiene
-15 consultas: 13 respondibles y 2 no respondibles.
-Dos de las consultas respondibles son reformulaciones de otros casos.
+40 consultas: 33 respondibles y 7 no respondibles.
+Las respondibles incluyen 26 preguntas base y 7 reformulaciones.
 
 ## Archivos locales
 
