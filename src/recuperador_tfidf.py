@@ -89,3 +89,54 @@ class RecuperadorTFIDF:
             raise ValueError(
                 f"No se pudo construir el índice TF-IDF: {error}"
             ) from error
+
+    def buscar(self, pregunta, k=3):
+        """Devuelve hasta k fragmentos ordenados por similitud coseno."""
+        if not isinstance(pregunta, str) or not pregunta.strip():
+            raise ValueError("La pregunta debe ser un texto no vacío.")
+
+        # bool se rechaza porque Python lo considera un subtipo de int.
+        if isinstance(k, bool) or not isinstance(k, int) or k <= 0:
+            raise ValueError("k debe ser un entero positivo.")
+
+        # Usa el vocabulario aprendido del corpus, sin volver a ajustarlo.
+        vector_pregunta = self.vectorizador.transform([pregunta])
+
+        # No hay términos de la consulta presentes en el vocabulario.
+        if vector_pregunta.nnz == 0:
+            return []
+
+        puntajes = cosine_similarity(
+            vector_pregunta,
+            self.matriz_corpus,
+        ).ravel()
+
+        # Excluimos fragmentos sin coincidencia léxica.
+        indices = [
+            indice
+            for indice, puntaje in enumerate(puntajes)
+            if puntaje > 0
+        ]
+
+        # Mayor puntaje primero; los empates se resuelven por identificador.
+        indices.sort(
+            key=lambda indice: (
+                -float(puntajes[indice]),
+                self.fragmentos[indice]["id_fragmento"],
+            )
+        )
+
+        resultados = []
+
+        for indice in indices[:k]:
+            fragmento = self.fragmentos[indice]
+
+            resultados.append({
+                "id_fragmento": fragmento["id_fragmento"],
+                "documento": fragmento["documento"],
+                "pagina": fragmento["pagina"],
+                "texto": fragmento["texto"],
+                "puntaje": float(puntajes[indice]),
+            })
+
+        return resultados
