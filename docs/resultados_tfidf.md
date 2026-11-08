@@ -135,3 +135,24 @@ Desde la raíz del proyecto, con el entorno virtual activo:
 
 Los datos deben obtenerse por el canal compartido del equipo,
 ya que la carpeta data está excluida de Git.
+
+## Consola interactiva
+
+Desde la raíz del proyecto, con el entorno virtual activo:
+
+    python src/consola_tfidf.py
+
+El índice se construye una sola vez al iniciar. Cada consulta
+devuelve hasta tres fragmentos con documento, página, identificador,
+similitud y texto original.
+
+La consola muestra diapositivas recuperadas; no genera respuestas
+ni determina si el material es suficiente para responder.
+
+Para terminar, escribir /salir o presionar Ctrl+C o Ctrl+D.
+
+Se comprobó manualmente:
+- Consulta sobre MAE: recuperó primero la página 27 de Regresión.
+- Consulta vacía: mostró un aviso y permitió continuar.
+- Término fuera del vocabulario: no devolvió resultados.
+- Comando /salir: finalizó correctamente.
