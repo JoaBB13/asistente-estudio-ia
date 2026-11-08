@@ -63,3 +63,28 @@ def cargar_corpus(ruta=RUTA_CORPUS):
         raise ValueError("El corpus está vacío.")
 
     return fragmentos
+
+class RecuperadorTFIDF:
+    """Prepara la representación TF-IDF de las diapositivas."""
+
+    def __init__(self, ruta_corpus=RUTA_CORPUS):
+        self.fragmentos = cargar_corpus(ruta_corpus)
+
+        self.vectorizador = TfidfVectorizer(
+            lowercase=True,
+            strip_accents="unicode",
+            ngram_range=(1, 1),
+            norm="l2",
+        )
+
+        textos = [
+            fragmento["texto"]
+            for fragmento in self.fragmentos
+        ]
+
+        try:
+            self.matriz_corpus = self.vectorizador.fit_transform(textos)
+        except ValueError as error:
+            raise ValueError(
+                f"No se pudo construir el índice TF-IDF: {error}"
+            ) from error
