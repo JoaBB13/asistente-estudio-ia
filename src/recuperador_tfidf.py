@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Ubica el corpus a partir de la ubicación de este archivo.
 RAIZ_PROYECTO = Path(__file__).resolve().parent.parent
