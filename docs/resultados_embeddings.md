@@ -35,14 +35,50 @@ con grupos de evidencias requeridos.
 
 Las reformulaciones no representan temas independientes de sus preguntas base.
 
-## Casos pendientes de revisión
+## Análisis de los casos sin acierto
 
-- DEV-010: definición de aprendizaje automático.
-- DEV-014: reformulación sobre el error absoluto medio.
+### DEV-010: definición de aprendizaje automático
 
-Ambos fallaron según las referencias anotadas.
-Está pendiente comparar las evidencias esperadas con los textos recuperados.
-No se modificaron las referencias ni los parámetros a partir de estos fallos.
+La evidencia anotada corresponde a la página 9 de
+09 - Aprendizaje automático.pdf.
+
+El primer resultado fue la página 27 de
+01 - Fundamentos IA_ML.pdf, que explica que los modelos
+aprenden de datos y permiten realizar predicciones,
+tomar decisiones o generar contenido.
+
+Se recuperó contenido pertinente, pero no una referencia
+incluida entre las evidencias esperadas.
+
+La página recuperada queda propuesta para revisión humana
+como posible evidencia alternativa. No se modificaron las
+referencias ni se recalculó la métrica.
+
+Si el equipo modifica las referencias, deberá versionar
+el conjunto de evaluación y volver a evaluar ambos métodos
+con las mismas referencias.
+
+### DEV-014: reformulación del error absoluto medio
+
+La evidencia esperada es la página 27 de 10 - Regresión.pdf,
+que define el MAE y explica su cálculo.
+
+El primer resultado menciona MAE y presenta valores de ejemplo,
+pero el texto recuperado no contiene el procedimiento de cálculo.
+Los otros resultados tampoco aportan la explicación requerida.
+
+Se considera un fallo de recuperación de evidencia suficiente
+para la pregunta completa.
+
+### Relación con el truncamiento
+
+El único fragmento truncado corresponde a una página 120.
+No es ninguna de las evidencias esperadas de DEV-010 o DEV-014.
+No se identificó el truncamiento de las evidencias esperadas
+como causa de estos fallos.
+
+El resultado inicial se conserva: Hit@3 de 31/33, equivalente
+a 93,94 %. No se modificaron los parámetros del buscador.
 
 ## Preguntas no respondibles
 
