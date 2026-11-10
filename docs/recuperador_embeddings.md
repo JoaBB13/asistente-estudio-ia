@@ -158,3 +158,18 @@ data/processed/sesion_embeddings_<fecha>.json.
 
 La consola recupera diapositivas. No genera respuestas
 ni determina si la evidencia es suficiente para responder.
+### Verificación manual de la consola
+
+Se comprobó:
+
+- Generación del índice una sola vez durante la sesión.
+- Consulta sobre MAE: definición recuperada en primer lugar,
+  en la página 27 de 10 - Regresión.pdf.
+- Consulta sobre aprendizaje supervisado: explicación general
+  recuperada en segundo lugar, en la página 31 de
+  01 - Fundamentos IA_ML.pdf.
+- Consulta vacía: muestra un aviso y permite continuar.
+- Comando /salir: finaliza y guarda los metadatos de la sesión.
+
+La salida mediante Ctrl+C y Ctrl+D está implementada,
+pero no fue verificada en esta sesión.
