@@ -134,3 +134,27 @@ No miden la calidad semántica del modelo real.
   el buscador devuelve vecinos incluso si la pregunta no tiene respuesta.
 - Falta medir Hit@3 con las preguntas respondibles de desarrollo.
 - No utilizar el conjunto final para ajustar parámetros.
+
+## Consola interactiva
+
+Ejecutar desde la raíz del proyecto:
+
+```bash
+python src/consola_embeddings.py
+```
+
+El índice se construye una sola vez al iniciar y se reutiliza
+durante la sesión.
+
+Cada consulta devuelve hasta tres fragmentos con documento,
+página, identificador, similitud y texto original.
+
+Las consultas vacías muestran un aviso y permiten continuar.
+Para salir, escribir /salir o presionar Ctrl+C o Ctrl+D.
+
+Al finalizar una sesión iniciada correctamente, se guarda
+la configuración y los truncamientos registrados en
+data/processed/sesion_embeddings_<fecha>.json.
+
+La consola recupera diapositivas. No genera respuestas
+ni determina si la evidencia es suficiente para responder.
