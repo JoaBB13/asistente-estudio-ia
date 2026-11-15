@@ -2,9 +2,10 @@
 
 ## Estado y composición
 
-El conjunto final está preparado y pasó la validación estructural
-y de referencias. Todavía no se ejecutaron los recuperadores ni
-la generación de respuestas sobre estas preguntas.
+El conjunto final pasó la validación estructural y de referencias.
+Se ejecutaron ambos recuperadores y el asistente con Qwen3 el 15/11/2026.
+Los [resultados](resultados_final_mvp.md) conservan los errores observados.
+La revisión asistida está disponible; falta la confirmación humana del equipo.
 
 | Tipo de caso | Cantidad |
 |---|---:|
@@ -58,8 +59,9 @@ No sustituye la revisión conceptual humana.
 Los ajustes de recuperación, prompts y umbrales se realizan
 con el conjunto de desarrollo.
 
-Antes de ejecutar la evaluación final se registrarán las versiones
-del código, modelos, dependencias y configuración utilizada.
+La corrida final registró versiones del código, modelos, dependencias y
+configuración en data/evaluacion/final_mvp_v1/configuracion.json.
+El commit evaluado fue 15e7382e8c23eb2b2983bdc15a401004a8631db7.
 
 El conjunto final no se utiliza para elegir esos ajustes.
 Si se modifica el sistema a partir de sus resultados, deberá
