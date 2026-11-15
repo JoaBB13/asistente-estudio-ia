@@ -231,3 +231,4 @@ __marimo__/
 # Modelos e indices generados
 /models/*
 !/models/.gitkeep
+.venv-uv/

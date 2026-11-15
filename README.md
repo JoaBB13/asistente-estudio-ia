@@ -245,3 +245,35 @@ la versión del corpus, consultar
 [Puesta en marcha para el equipo](docs/puesta_en_marcha.md).
 
 Clonar el repositorio no descarga los PDF ni los archivos de evaluación.
+
+## Instalación reproducible con uv
+
+Entorno comprobado: Linux x86_64, Python 3.14.4 y uv 0.13.8.
+Las dependencias se declaran en pyproject.toml y se fijan en uv.lock.
+
+Instalar uv siguiendo https://docs.astral.sh/uv/getting-started/installation/
+y ejecutar desde la raíz del repositorio:
+
+    UV_PROJECT_ENVIRONMENT=.venv-uv uv sync --locked --python 3.14
+    UV_PROJECT_ENVIRONMENT=.venv-uv uv run --locked python -m unittest discover -s tests -v
+
+Antes de iniciar el asistente, obtener el corpus compartido, instalar
+Ollama, descargar Qwen3 y preparar el tokenizador siguiendo
+[Instalación del MVP](docs/instalacion_mvp.md).
+
+Iniciar la consola:
+
+    UV_PROJECT_ENVIRONMENT=.venv-uv uv run --locked python src/consola_asistente.py
+
+No se requieren usuarios, contraseñas ni claves de API.
+El archivo .env.example documenta esta condición; no es necesario
+copiarlo a .env. Ollama debe estar disponible en localhost:11434.
+
+La instalación con este lock pasó las 25 pruebas y una consulta real
+sobre MAE, con referencia a Regresión, página 27.
+
+Este lock corresponde a una comprobación de instalación posterior
+a la evaluación final. Algunas dependencias transitivas difieren.
+El entorno de aquella corrida permanece registrado en
+data/evaluacion/final_mvp_v1/configuracion.json; sus métricas no se
+presentan como una nueva evaluación realizada con este lock.
