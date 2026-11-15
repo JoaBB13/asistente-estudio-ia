@@ -4,19 +4,29 @@ Asistente de estudio basado en documentos de una asignatura. Proyecto final grup
 
 ## Estado del proyecto
 
-La extracción, limpieza, selección del corpus y el análisis exploratorio
-inicial están implementados y documentados.
+MVP funcional de consola: recuperación semántica con multilingual-e5-small,
+generación local con Qwen3 4B Instruct 2507 mediante Ollama y referencias
+al documento y la página. Incluye baseline TF-IDF y registros de ejecución.
+No se entrenó un modelo de lenguaje desde cero.
 
-Se dispone de un corpus de 697 fragmentos, 40 consultas de desarrollo
-y 20 preguntas finales reservadas. Los archivos de evaluación pasaron
-la validación estructural y de referencias. Esta validación no sustituye
-la revisión conceptual de las preguntas, respuestas y evidencias.
+Se realizaron 25 pruebas automáticas y una prueba de funcionamiento del
+asistente en las tres computadoras del equipo, según las verificaciones
+comunicadas por sus integrantes. Esto no garantiza la calidad de toda respuesta.
 
-Se completó la preparación de las 40 consultas de desarrollo propuestas.
-La recuperación TF-IDF, la recuperación semántica, la generación
-y la consola están pendientes de implementación.
+La evaluación final se ejecutó el 15/11/2026 sobre 20 preguntas:
 
-Todavía no se midieron resultados de recuperación ni de generación.
+| Medida | Embeddings | TF-IDF |
+|---|---:|---:|
+| Hit@3 en preguntas respondibles | 15/16 (93,75 %) | 12/16 (75,00 %) |
+| Cobertura completa en casos con varias evidencias | 1/1 | 1/1 |
+
+En generación se registraron 19 salidas con estructura e identificadores
+válidos y una salida rechazada. Estas cantidades no miden corrección semántica.
+La revisión asistida está documentada; la confirmación humana del equipo
+permanece pendiente. No se afirma una tasa global de respuestas aceptables.
+
+- [Instalación y ejecución del MVP](docs/instalacion_mvp.md).
+- [Resultados finales y revisión asistida](docs/resultados_final_mvp.md).
 
 ## Integrantes
 
@@ -36,9 +46,9 @@ Desarrollar un asistente de estudio que responda preguntas en español
 utilizando documentos de una asignatura y muestre las fuentes que
 respaldan sus respuestas.
 
-## Arquitectura propuesta
+## Arquitectura implementada
 
-Se propone utilizar generación aumentada por recuperación (RAG):
+Se utiliza generación aumentada por recuperación (RAG):
 
 1. Extraer el texto de los PDF.
 2. Limpiar el contenido y utilizar cada diapositiva como fragmento.
@@ -47,12 +57,13 @@ Se propone utilizar generación aumentada por recuperación (RAG):
 5. Utilizar un modelo de lenguaje preentrenado para generar una respuesta.
 6. Mostrar las fuentes e indicar cuando la evidencia sea insuficiente.
 
-La primera comparación de recuperadores utilizará diapositivas individuales.
+La comparación de recuperadores utiliza diapositivas individuales.
 Si posteriormente se agrega contexto de páginas vecinas, se conservarán
 sus referencias y se distinguirá del contenido recuperado inicialmente.
 
-No se prevé entrenar un modelo de lenguaje desde cero.
-Los modelos concretos se seleccionarán tras comprobar los recursos disponibles.
+Se utilizan modelos preentrenados: intfloat/multilingual-e5-small para
+recuperar y qwen3:4b-instruct-2507-q4_K_M para generar localmente.
+La configuración evaluada y sus revisiones se registran en el informe final.
 
 ## Datos
 
@@ -98,7 +109,7 @@ Los PDF, los datos procesados y los archivos de preguntas de evaluación
 se mantienen fuera del control de versiones.
 Se documenta cómo obtener y preparar el corpus para reproducir el proyecto.
 
-## Alcance propuesto del MVP
+## Alcance del MVP
 
 - Material precargado por el equipo.
 - Preguntas escritas en español.
@@ -120,26 +131,19 @@ Se documenta cómo obtener y preparar el corpus para reproducir el proyecto.
 
 ## Baseline
 
-Se implementará un recuperador léxico mediante TF-IDF y similitud coseno,
-como punto de comparación para la recuperación semántica por embeddings.
-
-La representación léxica aplicará minúsculas y eliminación de tildes.
-El vectorizador se ajustará únicamente sobre el corpus de documentos;
-las consultas se transformarán sin volver a ajustarlo.
-
-Esta normalización no modificará el texto original devuelto
-en los resultados.
-
-Ambos métodos utilizarán el mismo corpus, las mismas preguntas y
-el mismo contrato de resultados, definido en
-[Contrato de recuperación](docs/contrato_recuperacion.md).
+Se implementó TF-IDF con similitud coseno para comparar la recuperación
+léxica con embeddings. Aplica minúsculas y elimina tildes en la representación
+de búsqueda, conservando el texto original de los resultados.
+El vectorizador se ajusta sobre el corpus; las consultas solo se transforman.
+Ambos recuperadores se evaluaron con el mismo corpus, preguntas y k=3,
+según el [contrato de recuperación](docs/contrato_recuperacion.md).
 
 ## Evaluación
 
 Se prepararon 60 consultas:
 
 - 40 para desarrollo y ajuste.
-- 20 reservadas para la evaluación final.
+- 20 originalmente reservadas, utilizadas en la evaluación final del 15/11/2026.
 
 Ambos conjuntos incluyen preguntas respondibles y no respondibles.
 Las paráfrasis identificadas de una misma pregunta permanecen
@@ -149,8 +153,9 @@ Cada consulta incluye una respuesta de referencia o una indicación de
 que no es respondible, criterios de corrección y las fuentes esperadas
 cuando corresponde.
 
-Las preguntas y respuestas de evaluación no se incorporarán al índice.
-El conjunto final no se utilizará para ajustar el sistema.
+Las preguntas y respuestas de evaluación no se incorporan al índice.
+El conjunto final ya fue utilizado para evaluar esta versión; cualquier ajuste
+posterior basado en sus resultados debe declararse como tal.
 
 ### Composición de los conjuntos
 

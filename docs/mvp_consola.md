@@ -5,6 +5,8 @@ y la generación local con qwen3:4b-instruct-2507-q4_K_M.
 
 ## Ejecución
 
+Para preparar otra computadora, seguir [Instalación del MVP](instalacion_mvp.md).
+
 Con el entorno virtual activo, los datos preparados, el modelo
 instalado en Ollama y el tokenizador disponible en la caché:
 
@@ -36,4 +38,5 @@ Estos casos no constituyen una validación completa del asistente.
 Las comprobaciones estructurales no garantizan corrección semántica.
 El rendimiento observado depende del equipo y de su memoria disponible.
 La evaluación ampliada de generación está pendiente de revisión humana.
-El conjunto final permanece reservado.
+El conjunto final se ejecutó el 15/11/2026. Consultar
+[Resultados finales y revisión asistida](resultados_final_mvp.md).

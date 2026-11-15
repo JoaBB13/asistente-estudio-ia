@@ -29,9 +29,10 @@ no constituyen una inspección exhaustiva de todas las imágenes del corpus.
 Los casos pasaron la validación estructural y de referencias.
 Esto no sustituye la revisión conceptual humana.
 
-Completar el conjunto de desarrollo no demuestra una calidad determinada
-del asistente. Todavía no se midieron resultados de recuperación
-ni de generación.
+Se ejecutaron evaluaciones de recuperación y generación en desarrollo y
+en el conjunto final. Los resultados finales y una revisión asistida están
+en [Resultados finales](resultados_final_mvp.md). La confirmación humana
+de las valoraciones sigue pendiente; no hay una nota global de calidad.
 
 ## Ubicación de los datos
 
@@ -148,8 +149,8 @@ Las preguntas de desarrollo pueden utilizarse para detectar errores
 y ajustar el sistema.
 
 El conjunto final preparado contiene 20 preguntas: 16 respondibles
-y 4 no respondibles. Se reserva para evaluar el sistema una vez
-fijada su configuración. Su versión y protocolo se documentan
+y 4 no respondibles. Se utilizó el 15/11/2026 tras fijar la configuración
+del sistema. Su versión y protocolo se documentan
 en `docs/conjunto_final.md`.
 
 Las preguntas equivalentes o las paráfrasis de una misma pregunta
